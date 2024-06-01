@@ -31,8 +31,11 @@
     align-items: center;
     justify-content: center;
     color: black;
+    flex-wrap: wrap;
 }
 .container-video video{
-    margin: 20px
+    margin: 20px;
+    height: 400px;
+    object-fit: contain;
 }
 

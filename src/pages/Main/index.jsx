@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import Navbar from "../../components/Navbar";
 import "./style.css";
 import { VideoContext } from "../../utils/VideProvider";
@@ -6,49 +6,37 @@ import { VideoContext } from "../../utils/VideProvider";
 const Main = () => {
     const { videoFile, emotionData } = useContext(VideoContext);
     const [selectedEmotions, setSelectedEmotions] = useState([]);
-    const [currentEmotion, setCurrentEmotion] = useState('');
+    const [currentEmotion, setCurrentEmotion] = useState(null);
     const videoRef = useRef(null);
 
-    const handleCheckboxChange = (emotion) => {
-        setSelectedEmotions((prev) =>
-            prev.includes(emotion)
-                ? prev.filter((e) => e !== emotion)
-                : [...prev, emotion]
+    const handleCheckboxChange = (event) => {
+        const { name, checked } = event.target;
+        setSelectedEmotions(prevState =>
+            checked ? [...prevState, name] : prevState.filter(emotion => emotion !== name)
         );
     };
 
     useEffect(() => {
-        const video = videoRef.current;
-        if (video) {
-            const handleTimeUpdate = () => {
-                const currentTime = Math.floor(video.currentTime);
-                const emotionAtCurrentTime = emotionData.find(
-                    (data) => data.time === currentTime
-                );
+        if (!videoFile || !emotionData) return;
 
-                if (emotionAtCurrentTime) {
-                    const { emotion, probabilities } = emotionAtCurrentTime;
-                    const highestEmotion = Object.keys(probabilities).reduce((a, b) =>
-                        probabilities[a] > probabilities[b] ? a : b
-                    );
+        const updateEmotion = () => {
+            const currentTime = Math.floor(videoRef.current.currentTime);
+            const emotionAtTime = emotionData[currentTime];
 
-                    if (selectedEmotions.includes(highestEmotion)) {
-                        setCurrentEmotion(
-                            `Tempo: ${currentTime}s, Emoção: ${highestEmotion}`
-                        );
-                    } else {
-                        setCurrentEmotion('');
-                    }
-                }
-            };
+            if (emotionAtTime && selectedEmotions.includes(emotionAtTime.emotion)) {
+                setCurrentEmotion(`${currentTime}s: ${emotionAtTime.emotion}`);
+            } else {
+                setCurrentEmotion(`${currentTime}s: No emotion detected`);
+            }
+        };
 
-            video.addEventListener('timeupdate', handleTimeUpdate);
+        const videoElement = videoRef.current;
+        videoElement.addEventListener('timeupdate', updateEmotion);
 
-            return () => {
-                video.removeEventListener('timeupdate', handleTimeUpdate);
-            };
-        }
-    }, [emotionData, selectedEmotions]);
+        return () => {
+            videoElement.removeEventListener('timeupdate', updateEmotion);
+        };
+    }, [videoFile, emotionData, selectedEmotions]);
 
     return (
         <div className="main">
@@ -58,70 +46,44 @@ const Main = () => {
                 <form id="checkbox-area">
                     <span>Filtro de Emoções</span>
                     <div id="checkbox">
-                        <input
-                            type="checkbox"
-                            name="Felicidade"
-                            onChange={() => handleCheckboxChange('happy')}
-                        />
-                        <label htmlFor="Felicidade">Felicidade</label>
+                        <input type="checkbox" name="Happy" onChange={handleCheckboxChange} />
+                        <label htmlFor="Happy">Felicidade</label>
                     </div>
                     <div id="checkbox">
-                        <input
-                            type="checkbox"
-                            name="Tristeza"
-                            onChange={() => handleCheckboxChange('sad')}
-                        />
-                        <label htmlFor="Tristeza">Tristeza</label>
+                        <input type="checkbox" name="Sad" onChange={handleCheckboxChange} />
+                        <label htmlFor="Sad">Tristeza</label>
                     </div>
                     <div id="checkbox">
-                        <input
-                            type="checkbox"
-                            name="Raiva"
-                            onChange={() => handleCheckboxChange('angry')}
-                        />
-                        <label htmlFor="Raiva">Raiva</label>
+                        <input type="checkbox" name="Angry" onChange={handleCheckboxChange} />
+                        <label htmlFor="Angry">Raiva</label>
                     </div>
                     <div id="checkbox">
-                        <input
-                            type="checkbox"
-                            name="Medo"
-                            onChange={() => handleCheckboxChange('fear')}
-                        />
-                        <label htmlFor="Medo">Medo</label>
+                        <input type="checkbox" name="Fear" onChange={handleCheckboxChange} />
+                        <label htmlFor="Fear">Medo</label>
                     </div>
                     <div id="checkbox">
-                        <input
-                            type="checkbox"
-                            name="Neutro"
-                            onChange={() => handleCheckboxChange('neutral')}
-                        />
-                        <label htmlFor="Neutro">Neutro</label>
+                        <input type="checkbox" name="Neutral" onChange={handleCheckboxChange} />
+                        <label htmlFor="Neutral">Neutro</label>
                     </div>
                     <div id="checkbox">
-                        <input
-                            type="checkbox"
-                            name="Nojo"
-                            onChange={() => handleCheckboxChange('disgust')}
-                        />
-                        <label htmlFor="Nojo">Nojo</label>
+                        <input type="checkbox" name="Disgust" onChange={handleCheckboxChange} />
+                        <label htmlFor="Disgust">Nojo</label>
                     </div>
                     <div id="checkbox">
-                        <input
-                            type="checkbox"
-                            name="Surpreso"
-                            onChange={() => handleCheckboxChange('surprise')}
-                        />
-                        <label htmlFor="Surpreso">Surpreso</label>
+                        <input type="checkbox" name="Surprised" onChange={handleCheckboxChange} />
+                        <label htmlFor="Surprised">Surpreso</label>
                     </div>
                 </form>
                 <div className="container-video">
                     {videoFile ? (
-                        <>
-                            <video ref={videoRef} width="600" controls>
+                        <div>
+                            <video width="600" controls ref={videoRef}>
                                 <source src={URL.createObjectURL(videoFile)} type="video/mp4" />
                             </video>
-                            <span> {currentEmotion ? currentEmotion : "Nenhuma Emoçao Detectada"}</span>
-                        </>
+                            <div>
+                                <span>{currentEmotion}</span>
+                            </div>
+                        </div>
                     ) : (
                         <p>No video uploaded.</p>
                     )}

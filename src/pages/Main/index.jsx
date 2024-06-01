@@ -70,8 +70,8 @@ const Main = () => {
                         <label htmlFor="Disgust">Nojo</label>
                     </div>
                     <div id="checkbox">
-                        <input type="checkbox" name="Surprised" onChange={handleCheckboxChange} />
-                        <label htmlFor="Surprised">Surpreso</label>
+                        <input type="checkbox" name="Surprise" onChange={handleCheckboxChange} />
+                        <label htmlFor="Surprise">Surpreso</label>
                     </div>
                 </form>
                 <div className="container-video">

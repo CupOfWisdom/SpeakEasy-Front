@@ -44,34 +44,35 @@ const Main = () => {
 
             <div className="container-main glass">
                 <form id="checkbox-area">
-                    <span>Filtro de Emoções</span>
+                    <span>Emotion Filter</span>
+
                     <div id="checkbox">
-                        <input type="checkbox" name="Happy" onChange={handleCheckboxChange} />
-                        <label htmlFor="Happy">Felicidade</label>
+                        <input type="checkbox" id="Happy" onChange={handleCheckboxChange} />
+                        <label htmlFor="Happy">Happy</label>
                     </div>
                     <div id="checkbox">
-                        <input type="checkbox" name="Sad" onChange={handleCheckboxChange} />
-                        <label htmlFor="Sad">Tristeza</label>
+                        <input type="checkbox" id="Sad" onChange={handleCheckboxChange} />
+                        <label htmlFor="Sad">Sad</label>
                     </div>
                     <div id="checkbox">
-                        <input type="checkbox" name="Angry" onChange={handleCheckboxChange} />
-                        <label htmlFor="Angry">Raiva</label>
+                        <input type="checkbox" id="Angry" onChange={handleCheckboxChange} />
+                        <label htmlFor="Angry">Angry</label>
                     </div>
                     <div id="checkbox">
-                        <input type="checkbox" name="Fear" onChange={handleCheckboxChange} />
-                        <label htmlFor="Fear">Medo</label>
+                        <input type="checkbox" id="Fear" onChange={handleCheckboxChange} />
+                        <label htmlFor="Fear">Fear</label>
                     </div>
                     <div id="checkbox">
-                        <input type="checkbox" name="Neutral" onChange={handleCheckboxChange} />
-                        <label htmlFor="Neutral">Neutro</label>
+                        <input type="checkbox" id="Neutral" onChange={handleCheckboxChange} />
+                        <label htmlFor="Neutral">Neutral</label>
                     </div>
                     <div id="checkbox">
-                        <input type="checkbox" name="Disgust" onChange={handleCheckboxChange} />
-                        <label htmlFor="Disgust">Nojo</label>
+                        <input type="checkbox" id="Disgust" onChange={handleCheckboxChange} />
+                        <label htmlFor="Disgust">Disgust</label>
                     </div>
                     <div id="checkbox">
-                        <input type="checkbox" name="Surprise" onChange={handleCheckboxChange} />
-                        <label htmlFor="Surprise">Surpreso</label>
+                        <input type="checkbox" id="Surprise" onChange={handleCheckboxChange} />
+                        <label htmlFor="Surprise">Surprise</label>
                     </div>
                 </form>
                 <div className="container-video">

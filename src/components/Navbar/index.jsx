@@ -1,15 +1,16 @@
+import { Link } from "react-router-dom";
 import "./style.css";
 
 const Navbar = () => {
   return (
     <div className='container-nav glass'>
 
-        <p>LOGO</p>
+        <Link to="/">LOGO</Link>
 
         <div id="btn-area">
-            <button>Experimentar</button>
-            <button>Entrar</button>
-            <button className="btn-s">Cadastrar</button>
+            <button>Try it</button>
+            <button>Login</button>
+            <button className="btn-s">Sigin</button>
         </div>
     </div>
   )

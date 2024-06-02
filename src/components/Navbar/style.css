@@ -11,6 +11,10 @@
     color: #f0f0f0;
 
 }
+.container-nav a{
+    color: #fff;
+    text-decoration: none;
+}
 
 .glass{
      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));

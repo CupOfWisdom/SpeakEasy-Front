@@ -5,7 +5,20 @@ import axios from "axios";
 import "./style.css";
 import { VideoContext } from '../../utils/VideProvider';
 
+import Spinner from 'react-bootstrap/Spinner';
+
+function BasicExample() {
+  return (
+    <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
+  );
+}
+
+
+
 const Input = () => {
+  const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const { setVideoFile, setEmotionData } = useContext(VideoContext);
   const navigate = useNavigate();
@@ -19,6 +32,7 @@ const Input = () => {
     if (selectedFile) {
       console.log('Uploading:', selectedFile);
       setVideoFile(selectedFile);
+      setLoading(true);
 
       const formData = new FormData();
       formData.append("file", selectedFile);
@@ -62,6 +76,8 @@ const Input = () => {
         navigate('/video');
       } catch (error) {
         console.error('Upload failed:', error);
+      } finally {
+        setLoading(false); // Hide the spinner
       }
     }
   };
@@ -77,10 +93,15 @@ const Input = () => {
           name="videoFile"
           onChange={handleFileChange} 
         />
-        <label htmlFor="uploadBtn" className='btn-s btnFile'>Upload</label>
-        <button onClick={handleUpload}>
+        <label htmlFor="uploadBtn" className=' btnFile'>Upload</label>
+        <button id='btnEnv' onClick={handleUpload}>
           Enviar Video
         </button>
+        {loading && (
+          <div className="loading">
+            <BasicExample/>
+          </div>
+        )}
       </form>
     </div>
   );
